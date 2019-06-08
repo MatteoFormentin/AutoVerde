@@ -1,21 +1,31 @@
 #include "Arduino.h"
 #include "conf.h"
 
-bool obstacle_found = false;             //Check if run path corrction routine (Should run once only)
-//bool first_correction_should_run = true; //Check if path has been already corrected (after obstacle detection)
-bool is_turning = false;
+bool obstacle_found = false; //Check if run path corrction routine (Should run once only)
+bool is_turning = false;     //Check if path has been already corrected (after obstacle detection)
+
 void go()
 {
     /*----- Check if obstacle -----*/
-
     int forw_mes = getRadar(90);
     if (forw_mes < MAX_DISTANCE_BEFORE_TURN) //Check first forward, if found break
     {
         obstacle_found = true;
+
+        //Safe Roll Back
+        if (forw_mes < SAFE_DISTANCE)
+        {
+            goBackward();
+            Serial.println("Going backward");
+            delay(1000);
+            return;
+        }
+
         if (is_turning) //If i am turning measure only forward
         {
             return;
         }
+
         Serial.println("Obstacole Forward");
     }
     else

@@ -9,6 +9,9 @@
 #define COMP_SPEED_R 0
 #define COMP_SPEED_L 0
 
+#define V_NORMAL 80
+#define V_TURN 80 
+
 //HCSR04 RADAR
 #define RADAR_REFRESH_RATE 10 //ms
 #define RADAR_ZERO_OFFSET -5 //Deg °
@@ -22,3 +25,7 @@
 
 //CONTROL ALG
 #define MAX_DISTANCE_BEFORE_TURN 30 //Cm
+#define SAFE_DISTANCE 5 //Cm
+
+//IR 
+#define IR_PIN 13

@@ -7,8 +7,9 @@ void setup()
 
     radarBegin();
     motor_begin();
+
+    digitalWrite(A0, HIGH )
    
-    setSpeed(80);
     delay(2000);
 }
 

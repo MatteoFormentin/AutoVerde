@@ -1,8 +1,8 @@
 #include "Arduino.h"
 #include "conf.h"
 
-int v = 255;
-int v_turn = 80;
+int v = V_NORMAL;
+int v_turn = V_TURN;
 
 /* 
     State:
@@ -22,27 +22,6 @@ void motor_begin()
     pinMode(LEFT_IN4, OUTPUT);
     pinMode(RIGHT_PWM_ENA, OUTPUT);
     pinMode(LEFT_PWM_ENB, OUTPUT);
-}
-
-void setSpeed(int new_v)
-{
-    if (new_v > 255)
-    {
-        v = 255;
-    }
-    else if (new_v < 50)
-    {
-        v = 50;
-    }
-    else
-    {
-        v = new_v;
-    }
-
-    if (state != 0)
-    {
-        runMotor();
-    }
 }
 
 //Update motor speed
@@ -117,9 +96,4 @@ void rotateLeft()
 int getState()
 {
     return state;
-}
-
-int getSpeed()
-{
-    return map(v, 0, 255, 0, 100);
 }

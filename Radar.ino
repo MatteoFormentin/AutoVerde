@@ -31,7 +31,6 @@ int getRadar(int a)
         radar_servo.write(a + radar_zero_offset);
         angle = a;
         delay(300);
-
     }
 
     return readDistance();
