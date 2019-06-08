@@ -2,15 +2,16 @@
 #include "conf.h"
 
 int v = 255;
+int v_turn = 80;
 
-int v_turn = 125;
-
-enum MState
-{
-    RUNNING,
-    STOP
-};
-
+/* 
+    State:
+    0-Off
+    1-Forwardz<<
+    2-Backward
+    3-Left
+    4-Right
+*/
 int state = 0;
 
 void motor_begin()
@@ -55,7 +56,7 @@ void runMotor()
     else
     {
         analogWrite(RIGHT_PWM_ENA, v_turn);
-        analogWrite(LEFT_PWM_ENB, v_turn);
+        analogWrite(LEFT_PWM_ENB, v_turn);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
     }
 }
 
@@ -66,7 +67,7 @@ void motorStop()
     state = 0;
 }
 
-void goForward()
+void goBackward()
 {
     digitalWrite(RIGHT_IN1, HIGH);
     digitalWrite(RIGHT_IN2, LOW);
@@ -77,8 +78,9 @@ void goForward()
     runMotor();
 }
 
-void goBackward()
+void goForward()
 {
+    Serial.println("going forward");
     digitalWrite(RIGHT_IN1, LOW);
     digitalWrite(RIGHT_IN2, HIGH);
 
@@ -88,8 +90,9 @@ void goBackward()
     runMotor();
 }
 
-void rotateLeft()
+void rotateRight()
 {
+    Serial.println("Going right");
     digitalWrite(RIGHT_IN1, HIGH);
     digitalWrite(RIGHT_IN2, LOW);
 
@@ -99,8 +102,9 @@ void rotateLeft()
     runMotor();
 }
 
-void rotateRight()
+void rotateLeft()
 {
+    Serial.println("going Left");
     digitalWrite(RIGHT_IN1, LOW);
     digitalWrite(RIGHT_IN2, HIGH);
 

@@ -1,0 +1,5 @@
+{
+    "board": "arduino:avr:leonardo",
+    "sketch": "AutoVerde.ino",
+    "port": "/dev/cu.usbmodem145101"
+}

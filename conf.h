@@ -1,22 +1,24 @@
 //L298N MOTOR
-#define RIGHT_IN1 22
-#define RIGHT_IN2 28
-#define LEFT_IN3 26
-#define LEFT_IN4 24
-#define RIGHT_PWM_ENA 3 //Must be PWM
-#define LEFT_PWM_ENB 2  //Must be PWM
+#define RIGHT_IN1 4
+#define RIGHT_IN2 2
+#define LEFT_IN3 7
+#define LEFT_IN4 8
+#define RIGHT_PWM_ENA 5 //Must be PWM
+#define LEFT_PWM_ENB 6  //Must be PWM
 
 #define COMP_SPEED_R 0
 #define COMP_SPEED_L 0
 
 //HCSR04 RADAR
 #define RADAR_REFRESH_RATE 10 //ms
+#define RADAR_ZERO_OFFSET -5 //Deg °
 
-#define HC_TRIGGER_RIGHT 32
-#define HC_ECHO_RIGHT 30
+#define MAX_DISTANCE_TIME 6000
 
-#define HC_TRIGGER_CENTER 34
-#define HC_ECHO_CENTER 36
+#define RADAR_SERVO_PIN 3 //Must be PWM
 
-#define HC_TRIGGER_LEFT 38
-#define HC_ECHO_LEFT 40
+#define HC_TRIGGER 9
+#define HC_ECHO 10
+
+//CONTROL ALG
+#define MAX_DISTANCE_BEFORE_TURN 30 //Cm
