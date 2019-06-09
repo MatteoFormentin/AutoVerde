@@ -14,7 +14,7 @@ void beginIr()
 
 bool checkIr()
 {
-    if (millis() - last_check > 1000)
+    if (millis() - last_check > 10000)
     {
         bool ir = !digitalRead(IR_PIN);
         if (ir == true)

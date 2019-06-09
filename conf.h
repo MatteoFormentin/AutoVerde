@@ -9,7 +9,7 @@
 #define COMP_SPEED_R 0
 #define COMP_SPEED_L 10
 
-#define V_NORMAL 100 //Was 80
+#define V_NORMAL 90 //Was 80
 #define V_TURN 150 
 
 //HCSR04 RADAR
@@ -30,7 +30,7 @@
 #define ROTATATION_STOP_TIME 500
 
 #define DELAY_SERVO_PARK 500
-#define PARKING_SPEED 75
+#define PARKING_SPEED 150
 
 //IR 
 #define IR_PIN 13

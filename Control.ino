@@ -5,14 +5,11 @@ bool is_moving = false;
 bool obstacle_found = false; //Check if run path corrction routine (Should run once only)
 bool is_turning = false;     //Check if path has been already corrected (after obstacle detection)
 bool parking = false;
+bool raddriz = true;
 
 void go()
 {
     checkIfIrStop();
-
-    Serial.print("is_moving: ");
-
-    Serial.println(is_moving);
 
     if (is_moving) //Correggere!!
     {
@@ -87,8 +84,9 @@ void go()
                 }
                 else
                 {
-                    obstacle_found = false;
+                    goForward(400);
                     is_turning = false;
+                    obstacle_found = false;
                     Serial.println("Set to false");
                 }
             }
@@ -131,31 +129,55 @@ void go()
 
     if (parking)
     {
-        setSpeed(PARKING_SPEED);
-        int a = getRadarCostumDelay(0, DELAY_SERVO_PARK);
-        int b = getRadarCostumDelay(180, DELAY_SERVO_PARK);
-        goBackward(200);
-        int c = getRadarCostumDelay(0, DELAY_SERVO_PARK);
-        int d = getRadarCostumDelay(180, DELAY_SERVO_PARK);
+        setSpeed(75);
 
-        if (a - c < -10 && b - d > 10)
+        int a = 0;
+        int b = 0;
+        int c = 0;
+        int d = 0;
+        if (raddriz)
         {
+            a = getRadarCostumDelay(0, DELAY_SERVO_PARK);
+            b = getRadarCostumDelay(180, DELAY_SERVO_PARK);
+            goBackward(200);
+            c = getRadarCostumDelay(0, DELAY_SERVO_PARK);
+            d = getRadarCostumDelay(180, DELAY_SERVO_PARK);
+            Serial.print("a ");
+            Serial.println(a);
+
+            Serial.print("b ");
+            Serial.println(b);
+            Serial.print("c ");
+            Serial.println(c);
+
+            Serial.print("d ");
+            Serial.println(d);
+        }
+
+        if (a - c < -5 && b - d > 5 && raddriz)
+        {
+            setSpeed(100);
             rotateRight(100);
         }
-        else if (a - c > 10 && b - d < -10)
+        else if (a - c > 5 && b - d < -5 && raddriz)
         {
+            setSpeed(100);
             rotateLeft(100);
         }
         else
         {
-            goBackward(100);
+            raddriz = false;
+            goBackward(1200);
+
             int e = getRadarCostumDelay(180, DELAY_SERVO_PARK);
-            if (e > 50)
+            if (e > 100)
             {
+                goBackward(1000);
                 rotateRight(200);
-                goBackward(1200);
+                goBackward(5000);
                 parking = false;
-                while(1){
+                while (1)
+                {
                 }
             }
             else
