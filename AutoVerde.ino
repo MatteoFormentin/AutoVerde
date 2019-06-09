@@ -7,18 +7,20 @@ void setup()
 
     radarBegin();
     motor_begin();
-
-    digitalWrite(A0, HIGH )
-   
-    delay(2000);
+    beginIr();
+    //rotateRight(100000);
 }
 
 void loop()
 {
     go();
+    //Serial.println(checkIr());
     /* Serial.println(readDistance());
     delay(1000);*/
 }
+
+
+
 /* 
 void test()
 {

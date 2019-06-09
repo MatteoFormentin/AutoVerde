@@ -7,8 +7,8 @@ int v_turn = V_TURN;
 /* 
     State:
     0-Off
-    1-Forwardz<<
-    2-Backward
+    1-Backward<<
+    2-Forward
     3-Left
     4-Right
 */
@@ -25,7 +25,7 @@ void motor_begin()
 }
 
 //Update motor speed
-void runMotor()
+void runMotor(int t)
 {
     if (state == 1 || state == 2)
     {
@@ -35,8 +35,10 @@ void runMotor()
     else
     {
         analogWrite(RIGHT_PWM_ENA, v_turn);
-        analogWrite(LEFT_PWM_ENB, v_turn);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+        analogWrite(LEFT_PWM_ENB, v_turn);
     }
+    delay(t);
+    motorStop();
 }
 
 void motorStop()
@@ -44,9 +46,10 @@ void motorStop()
     analogWrite(RIGHT_PWM_ENA, 0);
     analogWrite(LEFT_PWM_ENB, 0);
     state = 0;
+    Serial.println("Stop");
 }
 
-void goBackward()
+void goBackward(int t)
 {
     digitalWrite(RIGHT_IN1, HIGH);
     digitalWrite(RIGHT_IN2, LOW);
@@ -54,10 +57,10 @@ void goBackward()
     digitalWrite(LEFT_IN3, HIGH);
     digitalWrite(LEFT_IN4, LOW);
     state = 1;
-    runMotor();
+    runMotor(t);
 }
 
-void goForward()
+void goForward(int t)
 {
     Serial.println("going forward");
     digitalWrite(RIGHT_IN1, LOW);
@@ -66,31 +69,44 @@ void goForward()
     digitalWrite(LEFT_IN3, LOW);
     digitalWrite(LEFT_IN4, HIGH);
     state = 2;
-    runMotor();
+    runMotor(t);
 }
 
-void rotateRight()
+void goForwardContinuosly()
 {
-    Serial.println("Going right");
+    Serial.println("going forward");
+    digitalWrite(RIGHT_IN1, LOW);
+    digitalWrite(RIGHT_IN2, HIGH);
+
+    digitalWrite(LEFT_IN3, LOW);
+    digitalWrite(LEFT_IN4, HIGH);
+    state = 2;
+    analogWrite(RIGHT_PWM_ENA, v - COMP_SPEED_R);
+    analogWrite(LEFT_PWM_ENB, v - COMP_SPEED_L);
+}
+
+void rotateLeft(int t)
+{
+    Serial.println("Going left");
     digitalWrite(RIGHT_IN1, HIGH);
     digitalWrite(RIGHT_IN2, LOW);
 
     digitalWrite(LEFT_IN3, LOW);
     digitalWrite(LEFT_IN4, HIGH);
     state = 3;
-    runMotor();
+    runMotor(t);
 }
 
-void rotateLeft()
+void rotateRight(int t)
 {
-    Serial.println("going Left");
+    Serial.println("going Right");
     digitalWrite(RIGHT_IN1, LOW);
     digitalWrite(RIGHT_IN2, HIGH);
 
     digitalWrite(LEFT_IN3, HIGH);
     digitalWrite(LEFT_IN4, LOW);
     state = 4;
-    runMotor();
+    runMotor(t);
 }
 
 int getState()
