@@ -30,7 +30,7 @@ int getRadar(int a)
     {
         radar_servo.write(a + radar_zero_offset);
         angle = a;
-        delay(150); //Was 300
+        delay(200); //Was 300
     }
 
     return readDistance();

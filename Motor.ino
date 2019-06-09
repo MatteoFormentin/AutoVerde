@@ -24,6 +24,11 @@ void motor_begin()
     pinMode(LEFT_PWM_ENB, OUTPUT);
 }
 
+void setSpeed(int v_n)
+{
+    v = v_n;
+}
+
 //Update motor speed
 void runMotor(int t)
 {

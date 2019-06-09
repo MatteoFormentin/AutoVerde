@@ -131,29 +131,32 @@ void go()
 
     if (parking)
     {
-        int a = getRadar(0);
-        int b = getRadar(180);
-        goBackward(100);
-        int c = getRadar(0);
-        int d = getRadar(180);
+        setSpeed(PARKING_SPEED);
+        int a = getRadarCostumDelay(0, DELAY_SERVO_PARK);
+        int b = getRadarCostumDelay(180, DELAY_SERVO_PARK);
+        goBackward(200);
+        int c = getRadarCostumDelay(0, DELAY_SERVO_PARK);
+        int d = getRadarCostumDelay(180, DELAY_SERVO_PARK);
 
-        if (a - c < -5 && b - d > 5)
+        if (a - c < -10 && b - d > 10)
         {
             rotateRight(100);
         }
-        else if (a - c > 5 && b - d < -5)
+        else if (a - c > 10 && b - d < -10)
         {
             rotateLeft(100);
         }
         else
         {
             goBackward(100);
-            int e = getRadar(180);
+            int e = getRadarCostumDelay(180, DELAY_SERVO_PARK);
             if (e > 50)
             {
                 rotateRight(200);
-                goBackward(500);
+                goBackward(1200);
                 parking = false;
+                while(1){
+                }
             }
             else
             {
@@ -167,7 +170,7 @@ bool checkIfIrStop()
 {
     if (checkIr())
     {
-        if (is_moving)
+        if (is_moving && !parking)
         {
             //STOP (END LAP)
             is_moving = false;
