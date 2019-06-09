@@ -7,9 +7,9 @@
 #define LEFT_PWM_ENB 6  //Must be PWM
 
 #define COMP_SPEED_R 0
-#define COMP_SPEED_L 0
+#define COMP_SPEED_L 10
 
-#define V_NORMAL 80
+#define V_NORMAL 100 //Was 80
 #define V_TURN 150 
 
 //HCSR04 RADAR
@@ -24,7 +24,7 @@
 #define HC_ECHO 10
 
 //CONTROL ALG
-#define MAX_DISTANCE_BEFORE_TURN 30 //Cm
+#define MAX_DISTANCE_BEFORE_TURN 40 //Cm
 #define SAFE_DISTANCE 5 //Cm
 #define ROTATATION_TIME 160
 #define ROTATATION_STOP_TIME 500

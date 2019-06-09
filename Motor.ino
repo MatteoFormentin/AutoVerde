@@ -29,8 +29,8 @@ void runMotor(int t)
 {
     if (state == 1 || state == 2)
     {
-        analogWrite(RIGHT_PWM_ENA, v - COMP_SPEED_R);
-        analogWrite(LEFT_PWM_ENB, v - COMP_SPEED_L);
+        analogWrite(RIGHT_PWM_ENA, v + COMP_SPEED_R);
+        analogWrite(LEFT_PWM_ENB, v + COMP_SPEED_L);
     }
     else
     {
@@ -81,8 +81,8 @@ void goForwardContinuosly()
     digitalWrite(LEFT_IN3, LOW);
     digitalWrite(LEFT_IN4, HIGH);
     state = 2;
-    analogWrite(RIGHT_PWM_ENA, v - COMP_SPEED_R);
-    analogWrite(LEFT_PWM_ENB, v - COMP_SPEED_L);
+    analogWrite(RIGHT_PWM_ENA, v + COMP_SPEED_R);
+    analogWrite(LEFT_PWM_ENB, v + COMP_SPEED_L);
 }
 
 void rotateLeft(int t)

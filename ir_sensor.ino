@@ -3,6 +3,8 @@
 
 unsigned int last_check = 0;
 
+bool previous_ir = false;
+
 void beginIr()
 {
     pinMode(A0, OUTPUT);
@@ -14,9 +16,13 @@ bool checkIr()
 {
     if (millis() - last_check > 1000)
     {
-        bool ir = digitalRead(IR_PIN);
-        last_check = millis();
-        return !ir;
+        bool ir = !digitalRead(IR_PIN);
+        if (ir == true)
+        {
+            last_check = millis();
+        }
+
+        return ir;
     }
     else
     {
