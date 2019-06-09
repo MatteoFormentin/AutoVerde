@@ -1,3 +1,7 @@
+/* 
+*       H-BRIDGE MOTOR CONTROLLER
+*/
+
 #include "Arduino.h"
 #include "conf.h"
 
@@ -7,7 +11,7 @@ int v_turn = V_TURN;
 /* 
     State:
     0-Off
-    1-Backward<<
+    1-Backward
     2-Forward
     3-Left
     4-Right

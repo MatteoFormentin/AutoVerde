@@ -1,6 +1,6 @@
 # SELF DRIVING CAR
 
-Self Driving Car created for Leonardo - Politecnico di Milano Innovathon Contest  
+Self Driving Car created for Leonardo - Politecnico di Milano June 2019 Innovathon Contest  
   
 **Second place award winner**
 

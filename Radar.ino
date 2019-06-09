@@ -1,19 +1,14 @@
+/* 
+*       SERVO MOTOR MOUNTED ULTRASONIC SENSOR
+*/
+
 #include "Arduino.h"
 #include "conf.h"
-#include <Servo.h> //Inserire la libreria Servo
+#include <Servo.h>
 
 Servo radar_servo; //Il nome del servo è Servo1
-
-int angle = 0;
-const int offset = 30;
-
-bool increment = true;
-
-int measure[180 / offset + 1];
-
+int angle = 0;     //Previous angle - 0 is full right, 180 full left
 int radar_zero_offset = RADAR_ZERO_OFFSET;
-
-unsigned int last_read = 0;
 
 void radarBegin()
 {
@@ -24,18 +19,20 @@ void radarBegin()
     delay(500);
 }
 
+/*---- Get measure ad given angle ----*/
 int getRadar(int a)
 {
     if (angle != a)
     {
         radar_servo.write(a + radar_zero_offset);
         angle = a;
-        delay(250); //Was 300
+        delay(SERVO_DELAY);
     }
 
     return readDistance();
 }
 
+/*---- Get measure ad given angle and specify servo rotation waiting ----*/
 int getRadarCostumDelay(int a, int d)
 {
     if (angle != a)
@@ -70,13 +67,14 @@ int readDistance()
         }
     }
 
-    //Measure Smooth
+    //Measure Smooth -- 3 sample, get the average of the 2 most similar
     int a = abs(mes_read[1] - mes_read[0]);
     int b = abs(mes_read[2] - mes_read[1]);
     int c = abs(mes_read[2] - mes_read[0]);
-    int min_off = min(a, min(b,c));
-    if(min_off == a){
-        return (mes_read[1] + mes_read[0])/2;
+    int min_off = min(a, min(b, c));
+    if (min_off == a)
+    {
+        return (mes_read[1] + mes_read[0]) / 2;
     }
     if (min_off == b)
     {
@@ -88,45 +86,7 @@ int readDistance()
     }
 }
 
-/* 
-void updateRadar()
-{
-    if (millis() - last_read > RADAR_REFRESH_RATE)
-    {
-
-        radar_servo.write(angle);
-        //Serial.println(angle);
-        delay(10);
-
-        if (angle % offset == 0 || angle == 0)
-        {
-            // Serial.println("QUA");
-            measure[angle / offset] = readDistance();
-          
-        }
-
-        if (angle == 0)
-        {
-            increment = true;
-        }
-        else if (angle == 180)
-        {
-            increment = false;
-        }
-
-        if (increment)
-        {
-            angle++;
-        }
-        else
-        {
-            angle--;
-        }
-
-        last_read = millis();
-    }
-}*/
-
+/*---- Used for assembling of servo head ----*/
 void calibra()
 {
     radar_servo.write(90 + radar_zero_offset);

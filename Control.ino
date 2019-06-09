@@ -1,3 +1,7 @@
+/* 
+*       AUTONOMOUS DRIVE AND OBSTACLE AVOIDING
+*/
+
 #include "Arduino.h"
 #include "conf.h"
 
@@ -11,24 +15,17 @@ void go()
 {
     checkIfIrStop();
 
-    if (is_moving) //Correggere!!
+    /*----- Lap routine -----*/
+    if (is_moving)
     {
-        /*----- Check if obstacle -----*/
+        /*----- Standard forward routine -----*/
         if (!obstacle_found)
         {
+            //Check if obstacle
             int forw_mes = getRadar(90);
             if (forw_mes < MAX_DISTANCE_BEFORE_TURN) //Check first forward, if found break
             {
                 obstacle_found = true;
-
-                //Safe Roll Back
-                /*  if (forw_mes < SAFE_DISTANCE)
-            {
-                goBackward(1000);
-                Serial.println("Going backward");
-                return;
-            }*/
-
                 Serial.println("Obstacole Forward");
             }
             else
@@ -65,9 +62,10 @@ void go()
             }
         }
 
-        //If obstacle and correction has not been berformed
-        if (obstacle_found)
+        /*----- Obstacle avoiding routine -----*/
+        if (obstacle_found) //If obstacle and correction has not been berformed
         {
+            //If is turning the rotation direction has been already choosen, so just check if forward line of sight is clear
             if (is_turning)
             {
                 Serial.println("Turning");
@@ -76,13 +74,14 @@ void go()
                 {
                     return;
                 }
-                delay(ROTATATION_STOP_TIME);
+                delay(ROTATATION_STOP_TIME); //Needed to give motor time to stop
                 int forw_mes = getRadar(90);
-                if (forw_mes < MAX_DISTANCE_BEFORE_TURN) //Check first forward, if found break
+
+                if (forw_mes < MAX_DISTANCE_BEFORE_TURN) //If not clear continue rotate
                 {
                     runMotor(ROTATATION_TIME);
                 }
-                else
+                else //Else go foward a bit so i will not find obstacle left or right
                 {
                     goForward(400);
                     is_turning = false;
@@ -90,20 +89,20 @@ void go()
                     Serial.println("Set to false");
                 }
             }
-            else
+            else //If obstacle has just been found choose best direction
             {
                 Serial.println("Correction start");
-                motorStop(); //Stop before measure
-                //delay(ROTATATION_STOP_TIME);
+                motorStop(); //Stop before measure else will be wrong
 
                 if (checkIfIrStop())
                 {
                     return;
                 }
+
                 int r = getRadar(45);
                 int l = getRadar(135);
 
-                //Check what direction has maximum space available and turn here
+                //Check what direction has maximum space available and turn here for a few time, then i will check if clear (on next loop)
                 int maximum = max(l, r);
                 if (l == maximum)
                 {
@@ -116,17 +115,18 @@ void go()
                 is_turning = true;
             }
         }
-        else //If no obstacle or correction already performed
+        else //If no obstacle go forward
         {
             is_turning = false;
             if (checkIfIrStop())
             {
                 return;
             }
-            goForwardContinuosly();
+            goForwardContinuosly(); //No time limit
         }
     }
 
+    /*----- Final parking routine -----*/
     if (parking)
     {
         setSpeed(75);
@@ -176,7 +176,7 @@ void go()
                 rotateRight(200);
                 goBackward(5000);
                 parking = false;
-                while (1)
+                while (1) //After parking stop car -- our race is finished!
                 {
                 }
             }
@@ -188,11 +188,12 @@ void go()
     }
 }
 
+/*----- Routine selection based on ir command -----*/
 bool checkIfIrStop()
 {
     if (checkIr())
     {
-        if (is_moving && !parking)
+        if (is_moving && !parking) //After parking dont check ir anymnore
         {
             //STOP (END LAP)
             is_moving = false;
@@ -200,14 +201,14 @@ bool checkIfIrStop()
             obstacle_found = false;
             is_turning = false;
             motorStop();
-            Serial.println("asdf stop");
+            Serial.println("IR Stop");
             return true;
         }
         else
         {
             //GO (START LAP)
             is_moving = true;
-            Serial.println("Start");
+            Serial.println("IR Start");
             return false;
         }
     }

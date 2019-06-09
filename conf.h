@@ -13,12 +13,11 @@
 #define V_TURN 150 
 
 //HCSR04 RADAR
-#define RADAR_REFRESH_RATE 10 //ms
-#define RADAR_ZERO_OFFSET -5 //Deg °
+#define RADAR_ZERO_OFFSET -5 //Deg ° -- compensation of setup
 
-#define MAX_DISTANCE_TIME 6000
-
+#define MAX_DISTANCE_TIME 6000 //102 cm
 #define RADAR_SERVO_PIN 3 //Must be PWM
+#define SERVO_DELAY 250
 
 #define HC_TRIGGER 9
 #define HC_ECHO 10
@@ -30,7 +29,7 @@
 #define ROTATATION_STOP_TIME 500
 
 #define DELAY_SERVO_PARK 500
-#define PARKING_SPEED 150
 
 //IR 
 #define IR_PIN 13
+#define IR_PULLUP_PIN A0
